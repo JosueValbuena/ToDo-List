@@ -4,7 +4,7 @@ const mainTodoListButtonAdd = document.querySelector("#main-toDoList-components-
 const mainTodoListButtonEraseAll = document.querySelector("#main-toDoList-components-buttonEraseAll");
 const mainTodoListAddListUl = document.querySelector("#main-toDoList-add-list");
 const mainToDoListPanelSpan = document.querySelector("#main-toDoList-panel-total-span");
-const mainToDoListPanelDone = document.querySelector("#main-toDoList-panel-done");
+const mainToDoListPanelDone = document.querySelector("#main-toDoList-panel-done-span");
 // agregando funcionalidad a los botones
 mainTodoListButtonAdd.addEventListener("click", () => agregarTarea());
 mainTodoListButtonEraseAll.addEventListener("click", () => vaciarLista());
@@ -16,6 +16,7 @@ let listaTareas = [];
 function vaciarLista() {
     listaTareas = [];
     mainTodoListAddListUl.innerHTML = "";
+    rendeizarTareas();
 }
 
 //constructor de tareas
@@ -38,17 +39,7 @@ function agregarTarea() {
     const tareaParaAgrear = new tareasObj(mainTodoListAddInput.value);
     listaTareas.push(tareaParaAgrear);
     mainTodoListAddInput.value = "";
-
     rendeizarTareas()
-
-    //actualizar el panel de datos
-    mainToDoListPanelSpan.textContent = listaTareas.length;
-    let tareasHechas = listaTareas.filter((ele) => ele.tareaTerminada === true).length;
-    console.log(tareasHechas);
-    if (tareasHechas > 0) {
-        mainToDoListPanelDone.textContent = tareasHechas.length;
-
-    }
 }
 
 //renderizar tareas en el html main input
@@ -63,14 +54,29 @@ function rendeizarTareas() {
     `
     )
     mainTodoListAddListUl.innerHTML = renderizar;
+
+    //actualizar el panel de datos
+    mainToDoListPanelSpan.textContent = listaTareas.length;
+    actualizarTareasCompletadas()
 }
 
-//funciones para botones renderizados
+//completar una tarea
 function completarTarea(id) {
     let index = listaTareas.findIndex((ele) => ele.id === id);
     listaTareas[index].tareaTerminada = true;
+    actualizarTareasCompletadas()
 }
 
+//actualizar tareas hechas en panel de tareas
+function actualizarTareasCompletadas() {
+    let tareasHechas = listaTareas.filter((ele) => ele.tareaTerminada === true).length;
+    console.log(tareasHechas);
+    if (tareasHechas > 0) {
+        mainToDoListPanelDone.textContent = tareasHechas.length;
+    }
+}
+
+//eliminar una tarea
 function eliminarTarea(id) {
     let index = listaTareas.findIndex((ele) => ele.id === id);
     listaTareas.splice(index, 1);
