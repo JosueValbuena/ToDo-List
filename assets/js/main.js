@@ -3,6 +3,7 @@ const mainTodoListAddInput = document.querySelector("#main-toDoList-add-componen
 const mainTodoListButtonAdd = document.querySelector("#main-toDoList-components-buttonAdd");
 const mainTodoListButtonEraseAll = document.querySelector("#main-toDoList-components-buttonEraseAll");
 const mainTodoListAddListUl = document.querySelector("#main-toDoList-add-list");
+const mainToDoListPanelSpan = document.querySelector("#main-toDoList-panel-total");
 
 // agregando funcionalidad a los botones
 mainTodoListButtonAdd.addEventListener("click", () => agregarTarea());
@@ -20,7 +21,7 @@ function vaciarLista(){
 //constructor de tareas
 class tareasObj {
     constructor(value){
-        this.id = Date.now().toLocaleString();
+        this.id = Date.now();
         this.descripcion = value;
         this.tareaTerminada = false;
     }
@@ -30,6 +31,7 @@ class tareasObj {
 function agregarTarea(){
     const tareaParaAgrear = new tareasObj (mainTodoListAddInput.value);
     listaTareas.push(tareaParaAgrear);
+    mainTodoListAddInput.value="";
     rendeizarTareas()
 }
 
@@ -39,11 +41,22 @@ function rendeizarTareas(){
     `
     <li>
     <p>${tarea.descripcion}</p>
-    <button id=${tarea.id}>Completar Tarea</button>
-    <button id=${tarea.id}>Eliminar Tarea</button>
+    <button onClick="completarTarea(${tarea.id})">Completar Tarea</button>
+    <button onClick="eliminarTarea(${tarea.id})">Eliminar Tarea</button>
     </li>
     `
     )
     mainTodoListAddListUl.innerHTML = renderizar;
-    console.log(listaTareas);
+}
+
+//funciones para botones renderizados
+function completarTarea(id){
+    let index = listaTareas.findIndex((ele) => ele.id === id);
+    listaTareas[index].tareaTerminada = true;
+}
+
+function eliminarTarea(id){
+    let index = listaTareas.findIndex((ele) => ele.id === id);
+    listaTareas.splice(index, 1);
+    rendeizarTareas();
 }
