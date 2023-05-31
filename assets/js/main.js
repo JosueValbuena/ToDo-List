@@ -10,13 +10,22 @@ mainTodoListButtonAdd.addEventListener("click", () => agregarTarea());
 mainTodoListButtonEraseAll.addEventListener("click", () => vaciarLista());
 
 //array que guarda objetos
-let listaTareas = [];
+let listaTareas;
+
+//localStorage
+const lista = JSON.parse(localStorage.getItem("lista"));
+if(lista){
+    listaTareas = lista;
+    renderizarTareas()
+}else{
+    listaTareas = [];
+}
 
 //vacias la lista de tareas
 function vaciarLista() {
     listaTareas = [];
     mainTodoListAddListUl.innerHTML = "";
-    rendeizarTareas();
+    renderizarTareas();
 }
 
 //constructor de tareas
@@ -39,16 +48,18 @@ function agregarTarea() {
     const tareaParaAgrear = new tareasObj(mainTodoListAddInput.value);
     listaTareas.push(tareaParaAgrear);
     mainTodoListAddInput.value = "";
-    rendeizarTareas()
+    renderizarTareas()
+    //guardar informacion en el local storage
+    localStorage.setItem("lista", JSON.stringify(listaTareas));
 }
 
 //renderizar tareas en el html main input
-function rendeizarTareas() {
+function renderizarTareas() {
     let renderizar = listaTareas.map((tarea) =>
         `
     <li>
     <p>${tarea.descripcion}</p>
-    <button onClick="completarTarea(${tarea.id})">Completar Tarea</button>
+    <button id="${tarea.id}" onClick="completarTarea(${tarea.id})">Completar Tarea</button>
     <button onClick="eliminarTarea(${tarea.id})">Eliminar Tarea</button>
     </li>
     `
@@ -65,6 +76,8 @@ function completarTarea(id) {
     let index = listaTareas.findIndex((ele) => ele.id === id);
     listaTareas[index].tareaTerminada = true;
     actualizarTareasCompletadas()
+    let btn = document.querySelector(`#${id}`)
+    console.log(id);
 }
 
 //actualizar tareas hechas en panel de tareas
@@ -80,5 +93,5 @@ function actualizarTareasCompletadas() {
 function eliminarTarea(id) {
     let index = listaTareas.findIndex((ele) => ele.id === id);
     listaTareas.splice(index, 1);
-    rendeizarTareas();
+    renderizarTareas();
 }
