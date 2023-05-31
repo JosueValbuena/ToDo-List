@@ -5,6 +5,7 @@ html {
   box-sizing: inherit;
   margin: 0;
   padding: 0;
+  list-style:decimal;
 }
 
 .wrapper{
@@ -27,6 +28,7 @@ html {
     display: flex;
     flex-direction: column;
     width: 70%;
+    border-right: 1px solid gray;
 }
 
 .main-toDoList-add-components{
@@ -37,6 +39,10 @@ html {
 .main-toDoList-add-components *{
     margin: 1rem 1rem 0 1rem;
 
+}
+
+.main-toDoList-add-list-ul li{
+    display: flex;  
 }
 
 .main-toDoList-panel{
