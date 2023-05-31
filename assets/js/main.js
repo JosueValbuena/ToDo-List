@@ -25,6 +25,7 @@ if(lista){
 function vaciarLista() {
     listaTareas = [];
     mainTodoListAddListUl.innerHTML = "";
+    localStorage.setItem("lista", JSON.stringify(listaTareas));
     renderizarTareas();
 }
 
@@ -56,8 +57,8 @@ function agregarTarea() {
 //renderizar tareas en el html main input
 function renderizarTareas() {
     let renderizar = listaTareas.map((tarea) =>
-        `
-    <li>
+    `
+    <li class="main-toDoList-add-list-ul-li">
     <p>${tarea.descripcion}</p>
     <button id="${tarea.id}" onClick="completarTarea(${tarea.id})">Completar Tarea</button>
     <button onClick="eliminarTarea(${tarea.id})">Eliminar Tarea</button>
@@ -75,9 +76,11 @@ function renderizarTareas() {
 function completarTarea(id) {
     let index = listaTareas.findIndex((ele) => ele.id === id);
     listaTareas[index].tareaTerminada = true;
-    actualizarTareasCompletadas()
-    let btn = document.querySelector(`#${id}`)
-    console.log(id);
+    actualizarTareasCompletadas();
+    console.log(id)
+    let btn = document.getElementById(`${id}`);
+    console.log(btn)
+    btn.classList.toggle("realizada");
 }
 
 //actualizar tareas hechas en panel de tareas

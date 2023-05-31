@@ -1,11 +1,12 @@
 html {
   box-sizing: border-box;
+  list-style: none;
 }
 *, *:before, *:after {
   box-sizing: inherit;
   margin: 0;
   padding: 0;
-  list-style:decimal;
+  list-style: none;
 }
 
 .wrapper{
@@ -27,6 +28,7 @@ html {
 .main-toDoList-add{
     display: flex;
     flex-direction: column;
+    align-items: center;
     width: 70%;
     border-right: 1px solid gray;
 }
@@ -34,6 +36,7 @@ html {
 .main-toDoList-add-components{
     display: flex;
     justify-content: center;
+    margin: 1.5rem 0;
 }
 
 .main-toDoList-add-components *{
@@ -41,8 +44,21 @@ html {
 
 }
 
-.main-toDoList-add-list-ul li{
-    display: flex;  
+.main-toDoList-add-list{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+}
+
+.main-toDoList-add-list-ul{
+    display: flex;
+    justify-content: center;
+}
+
+.main-toDoList-add-list-ul-li{
+    display: flex;
+    margin: 0 1rem;
 }
 
 .main-toDoList-panel{
@@ -51,4 +67,9 @@ html {
 
 .main-toDoList-panel *{
     padding: 0 1rem;
+}
+
+.realizada{
+    text-decoration: line-through;
+    background-color: aqua;
 }
